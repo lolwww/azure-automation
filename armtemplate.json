@@ -22,8 +22,8 @@
     }
   },
   "variables": {
-    "runbookName": "Run-BashScripts",
-    "runbookDescription": "Run bash scripts on selected VMs",
+    "runbookName": "landscape-ubuntu-pro-subscribe",
+    "runbookDescription": "Subscribe to Landscape server and Ubuntu pro using token",
     "landscapeUri": "https://raw.githubusercontent.com/lolwww/azure-automation/main/subscribe-to-landscape.sh",
     "ubuntuProUri": "https://raw.githubusercontent.com/lolwww/azure-automation/main/subscribe-to-pro-with-token.sh"
   },
