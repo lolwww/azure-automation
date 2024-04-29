@@ -1,0 +1,81 @@
+{
+  "parameters": {
+    "vmList": {
+      "type": "array",
+      "metadata": {
+        "description": "The list of VMs to run the scripts on."
+      }
+    },
+    "ubuntuProToken": {
+      "type": "string",
+      "metadata": {
+        "description": "Ubuntu PRO token for subscription to existing account"
+      }
+    },
+    "landscapeAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Account name of user in landscape-server"
+      }
+    }
+  },
+  "basics": [],
+  "steps": [
+    {
+      "name": "vmListStep",
+      "label": "Select VMs",
+      "subLabel": {
+        "preValidation": "Configure the VMs to run the scripts on.",
+        "postValidation": "Done"
+      },
+      "bladeTitle": "VMs",
+      "elements": [
+        {
+          "name": "vmList",
+          "type": "Microsoft.Common.DropDown",
+          "label": "Virtual machines",
+          "defaultValue": "",
+          "toolTip": "Select the VMs to run the scripts on.",
+          "constraints": {
+            "allowedValues": "[map(basics('vmList').name, basics('vmList').resourceGroup, basics('vmList').name)]",
+            "required": true
+          },
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "parameterStep",
+      "label": "Script Parameters",
+      "elements": [
+        {
+          "name": "ubuntuProToken",
+          "type": "Microsoft.Common.TextBox",
+          "label": "Ubuntu PRO Token",
+          "defaultValue": "",
+          "toolTip": "Enter the Ubuntu PRO token for subscription to an existing account",
+          "constraints": {
+            "required": true
+          },
+          "visible": true
+        },
+        {
+          "name": "landscapeAccountName",
+          "type": "Microsoft.Common.TextBox",
+          "label": "Landscape Account Name",
+          "defaultValue": "",
+          "toolTip": "Enter the account name of the user in the landscape-server",
+          "constraints": {
+            "required": true
+          },
+          "visible": true
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "vmNames": "[basics('vmList').name]",
+    "ubuntuProToken": "[steps('parameterStep').ubuntuProToken]",
+    "landscapeAccountName": "[steps('parameterStep').landscapeAccountName]"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "automationAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the existing Azure Automation Account"
+      }
+    },
+    "ubuntuProToken": {
+      "type": "string",
+      "metadata": {
+        "description": "Ubuntu PRO token for subscription to existing account"
+      }
+    },
+    "landscapeAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Account name of user in landscape-server"
+      }
+    }
+  },
+  "variables": {
+    "runbookName": "Run-BashScripts",
+    "runbookDescription": "Run bash scripts on selected VMs",
+    "landscapeUri": "https://raw.githubusercontent.com/lolwww/azure-automation/main/subscribe-to-landscape.sh",
+    "ubuntuProUri": "https://raw.githubusercontent.com/lolwww/azure-automation/main/subscribe-to-pro-with-token.sh"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Automation/automationAccounts/runbooks",
+      "apiVersion": "2018-06-30",
+      "name": "[concat(parameters('automationAccountName'), '/', variables('runbookName'))]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "runbookType": "Python2",
+        "logProgress": true,
+        "logVerbose": true,
+        "description": "[variables('runbookDescription')]",
+        "publishContentLink": {
+          "uri": "[uri(deployment().properties.templateLink.uri, 'runbook.py')]",
+          "version": "1.0.0.0"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
